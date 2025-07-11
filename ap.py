@@ -68,3 +68,4 @@ if st.button("📊 Calculate Handicap Allowance"):
         st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
     else:
         st.info("No strokes are given. Handicaps are equal or allowance is zero.")
+
