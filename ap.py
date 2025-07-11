@@ -38,11 +38,11 @@ if st.button("📊 Calculate Handicap Allowance"):
     allowance = round((3 / 8) * diff)
 
     if team_a_total > team_b_total:
-        receiving_team = "Team B"
-        receiving_players = f"{b1_name} & {b2_name}"
-    elif team_b_total > team_a_total:
         receiving_team = "Team A"
         receiving_players = f"{a1_name} & {a2_name}"
+    elif team_b_total > team_a_total:
+        receiving_team = "Team B"
+        receiving_players = f"{b1_name} & {b2_name}"
     else:
         receiving_team = None
 
