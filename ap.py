@@ -1,4 +1,19 @@
 import streamlit as st
+from PIL import Image
+
+# Killineer stroke index mapping
+stroke_index = {
+    1: 18, 2: 5, 3: 13, 4: 3, 5: 17, 6: 6, 7: 7, 8: 9, 9: 11,
+    10: 8, 11: 12, 12: 10, 13: 4, 14: 14, 15: 1, 16: 15, 17: 16, 18: 2
+}
+
+# Load and display logo
+logo = Image.open("logo.png")
+st.set_page_config(page_title="Killineer Handicap Calculator", layout="centered")
+st.image(logo, width=200)
+st.title("🏌️ Killineer Doubles Match Play Handicap Calculator")
+
+import streamlit as st
 
 # Killineer stroke index mapping
 stroke_index = {
