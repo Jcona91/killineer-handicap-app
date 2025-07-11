@@ -69,3 +69,5 @@ if st.button("📊 Calculate Handicap Allowance"):
     else:
         st.info("No strokes are given. Handicaps are equal or allowance is zero.")
 
+
+
