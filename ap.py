@@ -16,20 +16,20 @@ with st.expander("📋 Enter Player Names and Handicaps", expanded=True):
     st.markdown("### Team A")
     col1, col2 = st.columns(2)
     with col1:
-        a1_name = st.text_input("Player 1 Name", value="Player A1")
-        a1_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=12, key="a1")
+        a1_name = st.text_input("Enter name for Team A - Player 1", placeholder="e.g. John")
+        a1_hcp = st.number_input("Handicap for Player 1", min_value=0, max_value=54, value=12, key="a1")
     with col2:
-        a2_name = st.text_input("Player 2 Name", value="Player A2")
-        a2_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=12, key="a2")
+        a2_name = st.text_input("Enter name for Team A - Player 2", placeholder="e.g. Sarah")
+        a2_hcp = st.number_input("Handicap for Player 2", min_value=0, max_value=54, value=12, key="a2")
 
     st.markdown("### Team B")
     col3, col4 = st.columns(2)
     with col3:
-        b1_name = st.text_input("Player 1 Name", value="Player B1")
-        b1_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=4, key="b1")
+        b1_name = st.text_input("Enter name for Team B - Player 1", placeholder="e.g. Mike")
+        b1_hcp = st.number_input("Handicap for Player 1", min_value=0, max_value=54, value=4, key="b1")
     with col4:
-        b2_name = st.text_input("Player 2 Name", value="Player B2")
-        b2_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=4, key="b2")
+        b2_name = st.text_input("Enter name for Team B - Player 2", placeholder="e.g. Emma")
+        b2_hcp = st.number_input("Handicap for Player 2", min_value=0, max_value=54, value=4, key="b2")
 
 if st.button("📊 Calculate Handicap Allowance"):
     team_a_total = a1_hcp + a2_hcp
