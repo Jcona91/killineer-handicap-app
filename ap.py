@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 
 # Load and display logo
-logo = Image.open("logo.png")  # Make sure your logo file is named 'logo.png' and in the same folder
+logo = Image.open("logo.png")  # Ensure 'logo.png' is in the same directory
 st.set_page_config(page_title="Killineer Handicap Calculator", layout="centered")
 st.image(logo, width=200)
 st.title("🏌️ Killineer Doubles Match Play Handicap Calculator")
@@ -21,19 +21,19 @@ with st.expander("📋 Enter Player Names and Handicaps", expanded=True):
     col1, col2 = st.columns(2)
     with col1:
         a1_name = st.text_input("Enter name for Team A - Player 1", placeholder="e.g. John")
-        a1_hcp = st.number_input("Handicap for Player 1", min_value=0, max_value=54, value=0, key="a1")
+        a1_hcp = st.number_input("Handicap for Player 1", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="a1")
     with col2:
         a2_name = st.text_input("Enter name for Team A - Player 2", placeholder="e.g. Sarah")
-        a2_hcp = st.number_input("Handicap for Player 2", min_value=0, max_value=54, value=0, key="a2")
+        a2_hcp = st.number_input("Handicap for Player 2", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="a2")
 
     st.markdown("### Team B")
     col3, col4 = st.columns(2)
     with col3:
         b1_name = st.text_input("Enter name for Team B - Player 1", placeholder="e.g. Mike")
-        b1_hcp = st.number_input("Handicap for Player 1", min_value=0, max_value=54, value=0, key="b1")
+        b1_hcp = st.number_input("Handicap for Player 1", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="b1")
     with col4:
         b2_name = st.text_input("Enter name for Team B - Player 2", placeholder="e.g. Emma")
-        b2_hcp = st.number_input("Handicap for Player 2", min_value=0, max_value=54, value=0, key="b2")
+        b2_hcp = st.number_input("Handicap for Player 2", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="b2")
 
 if st.button("📊 Calculate Handicap Allowance"):
     team_a_total = a1_hcp + a2_hcp
@@ -64,4 +64,5 @@ if st.button("📊 Calculate Handicap Allowance"):
         st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
     else:
         st.info("No strokes are given. Handicaps are equal or allowance is zero.")
+
 
