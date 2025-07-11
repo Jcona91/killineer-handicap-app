@@ -12,23 +12,26 @@ holes_by_index = sorted(stroke_index.items(), key=lambda x: x[1])
 st.set_page_config(page_title="Killineer Handicap Calculator", layout="centered")
 st.title("🏌️ Killineer Doubles Match Play Handicap Calculator")
 
-st.markdown("Enter the player names and handicaps for each team:")
+with st.expander("📋 Enter Player Names and Handicaps", expanded=True):
+    st.markdown("### Team A")
+    col1, col2 = st.columns(2)
+    with col1:
+        a1_name = st.text_input("Player 1 Name", value="Player A1")
+        a1_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=12, key="a1")
+    with col2:
+        a2_name = st.text_input("Player 2 Name", value="Player A2")
+        a2_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=12, key="a2")
 
-# Team A
-st.header("Team A")
-a1_name = st.text_input("Team A - Player 1 Name", value="Player A1")
-a1_hcp = st.number_input("Team A - Player 1 Handicap", min_value=0, max_value=54, value=12, key="a1")
-a2_name = st.text_input("Team A - Player 2 Name", value="Player A2")
-a2_hcp = st.number_input("Team A - Player 2 Handicap", min_value=0, max_value=54, value=12, key="a2")
+    st.markdown("### Team B")
+    col3, col4 = st.columns(2)
+    with col3:
+        b1_name = st.text_input("Player 1 Name", value="Player B1")
+        b1_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=4, key="b1")
+    with col4:
+        b2_name = st.text_input("Player 2 Name", value="Player B2")
+        b2_hcp = st.number_input("Handicap", min_value=0, max_value=54, value=4, key="b2")
 
-# Team B
-st.header("Team B")
-b1_name = st.text_input("Team B - Player 1 Name", value="Player B1")
-b1_hcp = st.number_input("Team B - Player 1 Handicap", min_value=0, max_value=54, value=4, key="b1")
-b2_name = st.text_input("Team B - Player 2 Name", value="Player B2")
-b2_hcp = st.number_input("Team B - Player 2 Handicap", min_value=0, max_value=54, value=4, key="b2")
-
-if st.button("Calculate Handicap Allowance"):
+if st.button("📊 Calculate Handicap Allowance"):
     team_a_total = a1_hcp + a2_hcp
     team_b_total = b1_hcp + b2_hcp
     diff = abs(team_a_total - team_b_total)
@@ -43,7 +46,8 @@ if st.button("Calculate Handicap Allowance"):
     else:
         receiving_team = None
 
-    st.subheader("📊 Results")
+    st.markdown("---")
+    st.subheader("📈 Match Summary")
     st.write(f"**{a1_name} + {a2_name} Handicap Total:** {team_a_total}")
     st.write(f"**{b1_name} + {b2_name} Handicap Total:** {team_b_total}")
     st.write(f"**Handicap Difference:** {diff}")
@@ -52,8 +56,7 @@ if st.button("Calculate Handicap Allowance"):
     if receiving_team and allowance > 0:
         st.success(f"✅ {receiving_team} ({receiving_players}) receives **{allowance} stroke(s)**.")
         stroke_holes = [hole for hole, _ in holes_by_index[:allowance]]
-        st.write("Apply strokes on the following holes (lowest stroke index):")
-        st.write(", ".join(f"Hole {h}" for h in stroke_holes))
+        st.markdown("**Apply strokes on these holes (lowest stroke index):**")
+        st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
     else:
         st.info("No strokes are given. Handicaps are equal or allowance is zero.")
-
