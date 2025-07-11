@@ -1,14 +1,10 @@
 import streamlit as st
 from PIL import Image
 
-# Set page config
-st.set_page_config(page_title="Killineer Handicap Calculator", layout="centered")
-
 # Load and display logo
-logo = Image.open("logo.png")
+logo = Image.open("logo.png")  # Ensure 'logo.png' is in the same directory
+st.set_page_config(page_title="Killineer Handicap Calculator", layout="centered")
 st.image(logo, width=200)
-
-# Title
 st.title("🏌️ Killineer Doubles Match Play Handicap Calculator")
 
 # Killineer stroke index mapping
@@ -18,44 +14,35 @@ stroke_index = {
 }
 
 # Sort holes by stroke index (lowest first)
-holes_by_index = sorted(stroke_index.items(), key=lambda x: x[1])  # [(15,1), (18,2), ...]
+holes_by_index = sorted(stroke_index.items(), key=lambda x: x[1])
 
-# Player input section
 with st.expander("📋 Enter Player Names and Handicaps", expanded=True):
     st.markdown("### Team A")
     col1, col2 = st.columns(2)
-    player_a1 = col1.text_input("Player A1 Name", value="Player A1")
-    handicap_a1 = col1.number_input("Player A1 Handicap", min_value=0, max_value=54, value=0)
-    player_a2 = col2.text_input("Player A2 Name", value="Player A2")
-    handicap_a2 = col2.number_input("Player A2 Handicap", min_value=0, max_value=54, value=0)
+    with col1:
+        a1_name = st.text_input("Enter name for Team A - Player 1", placeholder="e.g. John")
+        a1_hcp = st.number_input("Handicap for Player 1", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="a1")
+        a1_hcp = st.number_input("Handicap for Player 1", min_value=-10, max_value=54, value=0, step=1, key="a1")
+    with col2:
+        a2_name = st.text_input("Enter name for Team A - Player 2", placeholder="e.g. Sarah")
+        a2_hcp = st.number_input("Handicap for Player 2", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="a2")
+        a2_hcp = st.number_input("Handicap for Player 2", min_value=-10, max_value=54, value=0, step=1, key="a2")
 
     st.markdown("### Team B")
     col3, col4 = st.columns(2)
-    player_b1 = col3.text_input("Player B1 Name", value="Player B1")
-    handicap_b1 = col3.number_input("Player B1 Handicap", min_value=0, max_value=54, value=0)
-    player_b2 = col4.text_input("Player B2 Name", value="Player B2")
-    handicap_b2 = col4.number_input("Player B2 Handicap", min_value=0, max_value=54, value=0)
+    with col3:
+        b1_name = st.text_input("Enter name for Team B - Player 1", placeholder="e.g. Mike")
+        b1_hcp = st.number_input("Handicap for Player 1", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="b1")
+        b1_hcp = st.number_input("Handicap for Player 1", min_value=-10, max_value=54, value=0, step=1, key="b1")
+    with col4:
+        b2_name = st.text_input("Enter name for Team B - Player 2", placeholder="e.g. Emma")
+        b2_hcp = st.number_input("Handicap for Player 2", min_value=-10.0, max_value=54.0, value=0.0, step=0.1, key="b2")
+        b2_hcp = st.number_input("Handicap for Player 2", min_value=-10, max_value=54, value=0, step=1, key="b2")
 
-# Calculate strokes given
-players = {
-    player_a1: handicap_a1,
-    player_a2: handicap_a2,
-    player_b1: handicap_b1,
-    player_b2: handicap_b2
-}
-
-if all(name for name in players.keys()):
-    min_handicap = min(players.values())
-    st.subheader("📊 Stroke Allocation")
-
-    for name, hcap in players.items():
-        strokes_given = hcap - min_handicap
-        if strokes_given > 0:
-            stroke_holes = [hole for hole, _ in holes_by_index[:strokes_given]]
-            st.markdown(f"**{name}** receives **{strokes_given} stroke(s)** on:")
-            st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
-        else:
-            st.markdown(f"**{name}** is the scratch player and receives **no strokes**.")
+if st.button("📊 Calculate Handicap Allowance"):
+    team_a_total = a1_hcp + a2_hcp
+@@ -66,3 +66,4 @@
+        st.info("No strokes are given. Handicaps are equal or allowance is zero.")
 else:
     st.info("Please enter all player names to calculate strokes.")
 
