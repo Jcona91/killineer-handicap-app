@@ -16,33 +16,28 @@ stroke_index = {
 # Sort holes by stroke index (lowest first)
 holes_by_index = sorted(stroke_index.items(), key=lambda x: x[1])
 
-# Handicap options from -3 to 25 with display labels
-handicap_options = list(range(-3, 26))
-handicap_labels = [f"Plus {abs(h)}" if h < 0 else str(h) for h in handicap_options]
-handicap_dict = dict(zip(handicap_labels, handicap_options))
+# Format handicap for display
+def format_handicap(hcp):
+    return f"Plus {abs(hcp)}" if hcp < 0 else str(hcp)
 
 with st.expander("📋 Enter Player Names and Handicaps", expanded=True):
     st.markdown("### Team A")
     col1, col2 = st.columns(2)
     with col1:
         a1_name = st.text_input("Enter name for Team A - Player 1", placeholder="e.g. John")
-        a1_label = st.selectbox("Handicap for Player 1", handicap_labels, index=handicap_options.index(0), key="a1")
-        a1_hcp = handicap_dict[a1_label]
+        a1_hcp = st.number_input("Handicap for Player 1", min_value=-3, max_value=25, value=0, step=1, key="a1")
     with col2:
         a2_name = st.text_input("Enter name for Team A - Player 2", placeholder="e.g. Sarah")
-        a2_label = st.selectbox("Handicap for Player 2", handicap_labels, index=handicap_options.index(0), key="a2")
-        a2_hcp = handicap_dict[a2_label]
+        a2_hcp = st.number_input("Handicap for Player 2", min_value=-3, max_value=25, value=0, step=1, key="a2")
 
     st.markdown("### Team B")
     col3, col4 = st.columns(2)
     with col3:
         b1_name = st.text_input("Enter name for Team B - Player 1", placeholder="e.g. Mike")
-        b1_label = st.selectbox("Handicap for Player 1", handicap_labels, index=handicap_options.index(0), key="b1")
-        b1_hcp = handicap_dict[b1_label]
+        b1_hcp = st.number_input("Handicap for Player 1", min_value=-3, max_value=25, value=0, step=1, key="b1")
     with col4:
         b2_name = st.text_input("Enter name for Team B - Player 2", placeholder="e.g. Emma")
-        b2_label = st.selectbox("Handicap for Player 2", handicap_labels, index=handicap_options.index(0), key="b2")
-        b2_hcp = handicap_dict[b2_label]
+        b2_hcp = st.number_input("Handicap for Player 2", min_value=-3, max_value=25, value=0, step=1, key="b2")
 
 if st.button("📊 Calculate Handicap Allowance"):
     team_a_total = a1_hcp + a2_hcp
@@ -61,8 +56,8 @@ if st.button("📊 Calculate Handicap Allowance"):
 
     st.markdown("---")
     st.subheader("📈 Match Summary")
-    st.write(f"**{a1_name} + {a2_name} Handicap Total:** {team_a_total}")
-    st.write(f"**{b1_name} + {b2_name} Handicap Total:** {team_b_total}")
+    st.write(f"**{a1_name} + {a2_name} Handicap Total:** {format_handicap(a1_hcp)} + {format_handicap(a2_hcp)} = {team_a_total}")
+    st.write(f"**{b1_name} + {b2_name} Handicap Total:** {format_handicap(b1_hcp)} + {format_handicap(b2_hcp)} = {team_b_total}")
     st.write(f"**Handicap Difference:** {diff}")
     st.write(f"**3/8 of Difference (Rounded):** {allowance}")
 
@@ -73,7 +68,3 @@ if st.button("📊 Calculate Handicap Allowance"):
         st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
     else:
         st.info("No strokes are given. Handicaps are equal or allowance is zero.")
-
-
-
-
