@@ -42,27 +42,31 @@ with st.expander("📋 Enter Player Names and Handicaps", expanded=True):
 
 # Calculate and display strokes
 if st.button("📊 Calculate Handicap Allowance"):
-    players = {
-        a1_name: a1_hcp,
-        a2_name: a2_hcp,
-        b1_name: b1_hcp,
-        b2_name: b2_hcp
-    }
+    if all(name.strip() for name in [a1_name, a2_name, b1_name, b2_name]):
+        team_a_total = a1_hcp + a2_hcp
+        team_b_total = b1_hcp + b2_hcp
 
-    if all(name.strip() for name in players.keys()):
-        min_handicap = min(players.values())
-        st.subheader("📊 Stroke Allocation")
+        st.subheader("📊 Handicap Summary")
+        st.markdown(f"**{a1_name} + {a2_name}**: {team_a_total} combined handicap")
+        st.markdown(f"**{b1_name} + {b2_name}**: {team_b_total} combined handicap")
 
-        for name, hcap in players.items():
-            strokes_given = hcap - min_handicap
-            if strokes_given > 0:
-                stroke_holes = [hole for hole, _ in holes_by_index[:strokes_given]]
-                st.markdown(f"**{name}** receives **{strokes_given} stroke(s)** on:")
-                st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
-            else:
-                st.markdown(f"**{name}** is the scratch player and receives **no strokes**.")
+        if team_a_total == team_b_total:
+            st.info("Handicaps are equal. No strokes are given.")
+        else:
+            higher_team = "Team A" if team_a_total > team_b_total else "Team B"
+            stroke_team = [a1_name, a2_name] if higher_team == "Team A" else [b1_name, b2_name]
+            diff = abs(team_a_total - team_b_total)
+            strokes = round((3 / 8) * diff)
+
+            stroke_holes = [hole for hole, _ in holes_by_index[:strokes]]
+
+            st.success(f"🎯 {higher_team} receives **{strokes} stroke(s)**")
+            st.markdown(f"These strokes are applied to the following holes:")
+            st.markdown(", ".join(f"Hole {h}" for h in stroke_holes))
+            st.markdown(f"Players receiving strokes: **{stroke_team[0]}** and **{stroke_team[1]}**")
     else:
         st.warning("Please enter all player names to calculate strokes.")
+
 
 
 
